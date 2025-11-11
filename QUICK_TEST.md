@@ -3,7 +3,7 @@
 ## Step 1: Install Dependencies
 
 ```bash
-cd /Users/alexander.shurov/allure_testops/mcp/python
+cd /absolute/path/to/project
 pip install -r requirements.txt
 ```
 
@@ -66,7 +66,7 @@ Registered X tools
     "allure-testops-python": {
       "command": "python3",
       "args": [
-        "/Users/alexander.shurov/allure_testops/mcp/python/index.py"
+        "/absolute/path/to/index.py"
       ],
       "env": {
         "ALLURE_TESTOPS_URL": "https://your-instance.com",
@@ -86,7 +86,7 @@ Registered X tools
 ### Import Error
 ```bash
 # Make sure you're in the correct directory
-cd /Users/alexander.shurov/allure_testops/mcp/python
+cd /path/to/project
 
 # Check that all files are in place
 ls -la controllers/
