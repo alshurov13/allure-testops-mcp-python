@@ -1,13 +1,13 @@
-# Быстрое тестирование MCP сервера
+# Quick Testing of MCP Server
 
-## Шаг 1: Установка зависимостей
+## Step 1: Install Dependencies
 
 ```bash
 cd /Users/alexander.shurov/allure_testops/mcp/python
 pip install -r requirements.txt
 ```
 
-## Шаг 2: Настройка переменных окружения
+## Step 2: Configure Environment Variables
 
 ```bash
 export ALLURE_TESTOPS_URL='https://your-allure-instance.com'
@@ -15,13 +15,13 @@ export ALLURE_TOKEN='your-api-token'
 export PROJECT_ID='1'
 ```
 
-## Шаг 3: Простой тест
+## Step 3: Simple Test
 
 ```bash
 python test_simple.py
 ```
 
-Должно вывести:
+Should output:
 ```
 ✓ ALLURE_TESTOPS_URL: https://...
 ✓ ALLURE_TOKEN: ...
@@ -31,25 +31,25 @@ python test_simple.py
 ✓ Server initialized with X tools
 ```
 
-## Шаг 4: Полный тест
+## Step 4: Full Test
 
 ```bash
 python test_mcp.py
 ```
 
-Это проверит:
-- Подключение к Allure TestOps API
-- Регистрацию инструментов
-- Выполнение обработчиков
-- Структуру MCP сервера
+This will check:
+- Connection to Allure TestOps API
+- Tool registration
+- Handler execution
+- MCP server structure
 
-## Шаг 5: Запуск сервера
+## Step 5: Run Server
 
 ```bash
 python index.py
 ```
 
-Сервер должен запуститься и ждать ввода на stdin. Вы увидите:
+Server should start and wait for input on stdin. You will see:
 ```
 Allure TestOps MCP Server running on stdio
 Connected to: https://...
@@ -57,9 +57,9 @@ Project ID: 1
 Registered X tools
 ```
 
-## Тестирование через Cursor
+## Testing via Cursor
 
-1. Добавьте в `~/.cursor/mcp.json`:
+1. Add to `~/.cursor/mcp.json`:
 ```json
 {
   "mcpServers": {
@@ -78,28 +78,28 @@ Registered X tools
 }
 ```
 
-2. Перезапустите Cursor
-3. Попробуйте использовать инструменты в чате
+2. Restart Cursor
+3. Try using the tools in chat
 
-## Устранение проблем
+## Troubleshooting
 
-### Ошибка импорта
+### Import Error
 ```bash
-# Убедитесь, что вы в правильной директории
+# Make sure you're in the correct directory
 cd /Users/alexander.shurov/allure_testops/mcp/python
 
-# Проверьте, что все файлы на месте
+# Check that all files are in place
 ls -la controllers/
 ```
 
-### Ошибка подключения к API
-- Проверьте правильность URL
-- Проверьте токен
-- Проверьте сетевую доступность
+### API Connection Error
+- Check the URL is correct
+- Check the token
+- Check network availability
 
-### Ошибка "Unknown tool"
-- Убедитесь, что все контроллеры импортированы в index.py
-- Проверьте, что обработчики реализованы
+### "Unknown tool" Error
+- Make sure all controllers are imported in index.py
+- Check that handlers are implemented
 
 
 
