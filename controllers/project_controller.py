@@ -4,7 +4,7 @@ Generated from Swagger specification
 """
 
 import json
-from typing import Any, Dict
+from typing import Any
 from allure_client import AllureClient
 
 # Tools definitions
@@ -268,7 +268,7 @@ project_controller_tools = [
 async def handle_project_controller_tool(
     client: AllureClient,
     tool_name: str,
-    args: Dict[str, Any],
+    args: dict[str, Any],
     default_project_id: str
 ) -> str:
     """Handle project controller tool calls"""

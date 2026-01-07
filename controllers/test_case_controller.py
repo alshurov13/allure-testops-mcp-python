@@ -4,7 +4,7 @@ Generated from Swagger specification
 """
 
 import json
-from typing import Any, Dict
+from typing import Any
 from allure_client import AllureClient
 
 # Tools definitions
@@ -361,114 +361,115 @@ test_case_controller_tools = [
 async def handle_test_case_controller_tool(
     client: AllureClient,
     tool_name: str,
-    args: Dict[str, Any],
+    args: dict[str, Any],
     default_project_id: str
 ) -> str:
     """Handle test case controller tool calls"""
     try:
-        if tool_name == 'allure_test_case_findAll':
-            project_id = args.get('projectId')
-            page = args.get('page')
-            size = args.get('size')
-            sort = args.get('sort')
-            query_params = {k: v for k, v in {'projectId': project_id, 'page': page, 'size': size, 'sort': sort}.items() if v is not None}
-            result = await client.get('/api/testcase', query_params)
-            return json.dumps(result, indent=2)
-        
-        elif tool_name == 'allure_test_case_create':
-            body = args.get('body')
-            result = await client.post('/api/testcase', body)
-            return json.dumps(result, indent=2)
-        
-        elif tool_name == 'allure_findAllDeleted':
-            project_id = args.get('projectId')
-            page = args.get('page')
-            size = args.get('size')
-            sort = args.get('sort')
-            query_params = {k: v for k, v in {'projectId': project_id, 'page': page, 'size': size, 'sort': sort}.items() if v is not None}
-            result = await client.get('/api/testcase/deleted', query_params)
-            return json.dumps(result, indent=2)
-        
-        elif tool_name == 'allure_test_case_findHistoryByParams':
-            test_case_id = args.get('testCaseId')
-            project_id = args.get('projectId')
-            launch_id = args.get('launchId')
-            test_result_id = args.get('testResultId')
-            search = args.get('search')
-            page = args.get('page')
-            size = args.get('size')
-            sort = args.get('sort')
-            query_params = {k: v for k, v in {'testCaseId': test_case_id, 'projectId': project_id, 'launchId': launch_id, 'testResultId': test_result_id, 'search': search, 'page': page, 'size': size, 'sort': sort}.items() if v is not None}
-            result = await client.get('/api/testcase/history', query_params)
-            return json.dumps(result, indent=2)
-        
-        elif tool_name == 'allure_findAllMuted':
-            project_id = args.get('projectId')
-            page = args.get('page')
-            size = args.get('size')
-            sort = args.get('sort')
-            query_params = {k: v for k, v in {'projectId': project_id, 'page': page, 'size': size, 'sort': sort}.items() if v is not None}
-            result = await client.get('/api/testcase/muted', query_params)
-            return json.dumps(result, indent=2)
-        
-        elif tool_name == 'allure_test_case_suggest':
-            query = args.get('query')
-            project_id = args.get('projectId')
-            id_list = args.get('id')
-            ignore_id = args.get('ignoreId')
-            page = args.get('page')
-            size = args.get('size')
-            sort = args.get('sort')
-            query_params = {k: v for k, v in {'query': query, 'projectId': project_id, 'id': id_list, 'ignoreId': ignore_id, 'page': page, 'size': size, 'sort': sort}.items() if v is not None}
-            result = await client.get('/api/testcase/suggest', query_params)
-            return json.dumps(result, indent=2)
-        
-        elif tool_name == 'allure_test_case_delete':
-            id_val = args.get('id')
-            force = args.get('force')
-            query_params = {k: v for k, v in {'force': force}.items() if v is not None}
-            await client.delete(f'/api/testcase/{id_val}', query_params)
-            return 'Successfully deleted'
-        
-        elif tool_name == 'allure_test_case_findOne':
-            id_val = args.get('id')
-            result = await client.get(f'/api/testcase/{id_val}')
-            return json.dumps(result, indent=2)
-        
-        elif tool_name == 'allure_test_case_patch':
-            id_val = args.get('id')
-            body = args.get('body')
-            result = await client.patch(f'/api/testcase/{id_val}', body)
-            return json.dumps(result, indent=2)
-        
-        elif tool_name == 'allure_detachAutomation':
-            id_val = args.get('id')
-            body = args.get('body')
-            result = await client.post(f'/api/testcase/{id_val}/detachautomation', body)
-            return json.dumps(result, indent=2)
-        
-        elif tool_name == 'allure_test_case_findHistoryById':
-            id_val = args.get('id')
-            search = args.get('search')
-            page = args.get('page')
-            size = args.get('size')
-            sort = args.get('sort')
-            query_params = {k: v for k, v in {'search': search, 'page': page, 'size': size, 'sort': sort}.items() if v is not None}
-            result = await client.get(f'/api/testcase/{id_val}/history', query_params)
-            return json.dumps(result, indent=2)
-        
-        elif tool_name == 'allure_restore':
-            id_val = args.get('id')
-            result = await client.post(f'/api/testcase/{id_val}/restore', {})
-            return json.dumps(result, indent=2)
-        
-        elif tool_name == 'allure_findWorkflow':
-            id_val = args.get('id')
-            result = await client.get(f'/api/testcase/{id_val}/workflow')
-            return json.dumps(result, indent=2)
-        
-        else:
-            raise ValueError(f"Unknown tool: {tool_name}")
+        match tool_name:
+            case 'allure_test_case_findAll':
+                project_id = args.get('projectId')
+                page = args.get('page')
+                size = args.get('size')
+                sort = args.get('sort')
+                query_params = {k: v for k, v in {'projectId': project_id, 'page': page, 'size': size, 'sort': sort}.items() if v is not None}
+                result = await client.get('/api/testcase', query_params)
+                return json.dumps(result, indent=2)
+
+            case 'allure_test_case_create':
+                body = args.get('body')
+                result = await client.post('/api/testcase', body)
+                return json.dumps(result, indent=2)
+
+            case 'allure_findAllDeleted':
+                project_id = args.get('projectId')
+                page = args.get('page')
+                size = args.get('size')
+                sort = args.get('sort')
+                query_params = {k: v for k, v in {'projectId': project_id, 'page': page, 'size': size, 'sort': sort}.items() if v is not None}
+                result = await client.get('/api/testcase/deleted', query_params)
+                return json.dumps(result, indent=2)
+
+            case 'allure_test_case_findHistoryByParams':
+                test_case_id = args.get('testCaseId')
+                project_id = args.get('projectId')
+                launch_id = args.get('launchId')
+                test_result_id = args.get('testResultId')
+                search = args.get('search')
+                page = args.get('page')
+                size = args.get('size')
+                sort = args.get('sort')
+                query_params = {k: v for k, v in {'testCaseId': test_case_id, 'projectId': project_id, 'launchId': launch_id, 'testResultId': test_result_id, 'search': search, 'page': page, 'size': size, 'sort': sort}.items() if v is not None}
+                result = await client.get('/api/testcase/history', query_params)
+                return json.dumps(result, indent=2)
+
+            case 'allure_findAllMuted':
+                project_id = args.get('projectId')
+                page = args.get('page')
+                size = args.get('size')
+                sort = args.get('sort')
+                query_params = {k: v for k, v in {'projectId': project_id, 'page': page, 'size': size, 'sort': sort}.items() if v is not None}
+                result = await client.get('/api/testcase/muted', query_params)
+                return json.dumps(result, indent=2)
+
+            case 'allure_test_case_suggest':
+                query = args.get('query')
+                project_id = args.get('projectId')
+                id_list = args.get('id')
+                ignore_id = args.get('ignoreId')
+                page = args.get('page')
+                size = args.get('size')
+                sort = args.get('sort')
+                query_params = {k: v for k, v in {'query': query, 'projectId': project_id, 'id': id_list, 'ignoreId': ignore_id, 'page': page, 'size': size, 'sort': sort}.items() if v is not None}
+                result = await client.get('/api/testcase/suggest', query_params)
+                return json.dumps(result, indent=2)
+
+            case 'allure_test_case_delete':
+                id_val = args.get('id')
+                force = args.get('force')
+                query_params = {k: v for k, v in {'force': force}.items() if v is not None}
+                await client.delete(f'/api/testcase/{id_val}', query_params)
+                return 'Successfully deleted'
+
+            case 'allure_test_case_findOne':
+                id_val = args.get('id')
+                result = await client.get(f'/api/testcase/{id_val}')
+                return json.dumps(result, indent=2)
+
+            case 'allure_test_case_patch':
+                id_val = args.get('id')
+                body = args.get('body')
+                result = await client.patch(f'/api/testcase/{id_val}', body)
+                return json.dumps(result, indent=2)
+
+            case 'allure_detachAutomation':
+                id_val = args.get('id')
+                body = args.get('body')
+                result = await client.post(f'/api/testcase/{id_val}/detachautomation', body)
+                return json.dumps(result, indent=2)
+
+            case 'allure_test_case_findHistoryById':
+                id_val = args.get('id')
+                search = args.get('search')
+                page = args.get('page')
+                size = args.get('size')
+                sort = args.get('sort')
+                query_params = {k: v for k, v in {'search': search, 'page': page, 'size': size, 'sort': sort}.items() if v is not None}
+                result = await client.get(f'/api/testcase/{id_val}/history', query_params)
+                return json.dumps(result, indent=2)
+
+            case 'allure_restore':
+                id_val = args.get('id')
+                result = await client.post(f'/api/testcase/{id_val}/restore', {})
+                return json.dumps(result, indent=2)
+
+            case 'allure_findWorkflow':
+                id_val = args.get('id')
+                result = await client.get(f'/api/testcase/{id_val}/workflow')
+                return json.dumps(result, indent=2)
+
+            case _:
+                raise ValueError(f"Unknown tool: {tool_name}")
     except Exception as error:
         raise Exception(f"TestCaseController operation failed: {str(error)}")
 

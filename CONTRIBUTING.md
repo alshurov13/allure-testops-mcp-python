@@ -36,8 +36,8 @@ git check-ignore -v .env open_launches_summary.json venv/
 Run the test suite before committing:
 
 ```bash
-python test_simple.py
-python test_mcp.py
+poetry run python test_simple.py
+poetry run python test_mcp.py
 ```
 
 ## Pull Request Process

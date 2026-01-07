@@ -52,7 +52,7 @@ except ImportError as e:
 
 print("\n✓ Basic checks passed! Server should be ready to run.")
 print("\nTo test the server, run:")
-print("  python index.py")
+print("  poetry run python index.py")
 
 
 

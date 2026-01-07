@@ -13,7 +13,7 @@ export PROJECT_ID='1'
 ### 2. Run Simple Test
 
 ```bash
-python test_simple.py
+poetry run python test_simple.py
 ```
 
 This will check:
@@ -24,7 +24,7 @@ This will check:
 ### 3. Run Full Test Suite
 
 ```bash
-python test_mcp.py
+poetry run python test_mcp.py
 ```
 
 This will test:
@@ -38,7 +38,7 @@ This will test:
 ### Test 1: Check Server Starts
 
 ```bash
-python index.py
+poetry run python index.py
 ```
 
 The server should start and wait for input on stdin. You should see:
@@ -105,8 +105,8 @@ asyncio.run(test())
 ### Server Won't Start
 
 - Check environment variables are set
-- Check Python version (requires 3.8+)
-- Check dependencies: `pip install -r requirements.txt`
+- Check Python version (requires 3.10+)
+- Check dependencies: `poetry install` (ensures `pyproject.toml` dependencies are installed)
 
 ### Connection Errors
 

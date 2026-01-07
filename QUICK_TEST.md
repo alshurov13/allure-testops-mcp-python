@@ -4,7 +4,7 @@
 
 ```bash
 cd /absolute/path/to/project
-pip install -r requirements.txt
+poetry install
 ```
 
 ## Step 2: Configure Environment Variables
@@ -18,7 +18,7 @@ export PROJECT_ID='1'
 ## Step 3: Simple Test
 
 ```bash
-python test_simple.py
+poetry run python test_simple.py
 ```
 
 Should output:
@@ -34,7 +34,7 @@ Should output:
 ## Step 4: Full Test
 
 ```bash
-python test_mcp.py
+poetry run python test_mcp.py
 ```
 
 This will check:
@@ -46,7 +46,7 @@ This will check:
 ## Step 5: Run Server
 
 ```bash
-python index.py
+poetry run python index.py
 ```
 
 Server should start and wait for input on stdin. You will see:

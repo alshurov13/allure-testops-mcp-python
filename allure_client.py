@@ -4,7 +4,7 @@ Provides HTTP methods for interacting with Allure TestOps API
 """
 
 import json
-from typing import Any, Dict, Optional, List
+from typing import Any
 from urllib.parse import urljoin
 import httpx
 
@@ -16,7 +16,7 @@ class AllureClient:
         self.base_url = base_url.rstrip('/')
         self.token = token
     
-    def _get_headers(self) -> Dict[str, str]:
+    def _get_headers(self) -> dict[str, str]:
         """Get HTTP headers for API requests"""
         return {
             'Authorization': f'Api-Token {self.token}',
@@ -24,7 +24,7 @@ class AllureClient:
             'Accept': 'application/json',
         }
     
-    def _build_url(self, path: str, params: Optional[Dict[str, Any]] = None) -> str:
+    def _build_url(self, path: str, params: dict[str, Any] | None = None) -> str:
         """Build full URL with query parameters"""
         url = urljoin(self.base_url, path)
         if params:
@@ -52,7 +52,7 @@ class AllureClient:
         
         return url
     
-    async def get(self, path: str, params: Optional[Dict[str, Any]] = None) -> Any:
+    async def get(self, path: str, params: dict[str, Any] | None = None) -> Any:
         """Perform GET request"""
         url = self._build_url(path, params)
         async with httpx.AsyncClient() as client:
@@ -60,7 +60,7 @@ class AllureClient:
             response.raise_for_status()
             return response.json()
     
-    async def post(self, path: str, body: Optional[Any] = None, params: Optional[Dict[str, Any]] = None) -> Any:
+    async def post(self, path: str, body: Any | None = None, params: dict[str, Any] | None = None) -> Any:
         """Perform POST request"""
         url = self._build_url(path, params)
         async with httpx.AsyncClient() as client:
@@ -72,7 +72,7 @@ class AllureClient:
             response.raise_for_status()
             return response.json()
     
-    async def patch(self, path: str, body: Any, params: Optional[Dict[str, Any]] = None) -> Any:
+    async def patch(self, path: str, body: Any, params: dict[str, Any] | None = None) -> Any:
         """Perform PATCH request"""
         url = self._build_url(path, params)
         async with httpx.AsyncClient() as client:
@@ -84,7 +84,7 @@ class AllureClient:
             response.raise_for_status()
             return response.json()
     
-    async def put(self, path: str, body: Any, params: Optional[Dict[str, Any]] = None) -> Any:
+    async def put(self, path: str, body: Any, params: dict[str, Any] | None = None) -> Any:
         """Perform PUT request"""
         url = self._build_url(path, params)
         async with httpx.AsyncClient() as client:
@@ -96,7 +96,7 @@ class AllureClient:
             response.raise_for_status()
             return response.json()
     
-    async def delete(self, path: str, params: Optional[Dict[str, Any]] = None) -> None:
+    async def delete(self, path: str, params: dict[str, Any] | None = None) -> None:
         """Perform DELETE request"""
         url = self._build_url(path, params)
         async with httpx.AsyncClient() as client:
@@ -104,7 +104,7 @@ class AllureClient:
             response.raise_for_status()
     
     # Test Case CRUD
-    async def get_test_cases(self, project_id: str, params: Optional[Dict[str, Any]] = None) -> Any:
+    async def get_test_cases(self, project_id: str, params: dict[str, Any] | None = None) -> Any:
         """Get all test cases for a project"""
         query_params = {"projectId": project_id}
         if params:
@@ -115,12 +115,12 @@ class AllureClient:
         """Get a specific test case by ID"""
         return await self.get(f"/api/rs/testcase/{test_case_id}")
     
-    async def create_test_case(self, project_id: str, test_case: Dict[str, Any]) -> Any:
+    async def create_test_case(self, project_id: str, test_case: dict[str, Any]) -> Any:
         """Create a new test case"""
         body = {**test_case, "projectId": int(project_id)}
         return await self.post("/api/rs/testcase", body)
     
-    async def update_test_case(self, test_case_id: int, test_case: Dict[str, Any]) -> Any:
+    async def update_test_case(self, test_case_id: int, test_case: dict[str, Any]) -> Any:
         """Update an existing test case"""
         return await self.patch(f"/api/rs/testcase/{test_case_id}", test_case)
     
@@ -128,7 +128,7 @@ class AllureClient:
         """Delete a test case"""
         await self.delete(f"/api/rs/testcase/{test_case_id}")
     
-    async def bulk_create_test_cases(self, project_id: str, test_cases: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    async def bulk_create_test_cases(self, project_id: str, test_cases: list[dict[str, Any]]) -> list[dict[str, Any]]:
         """Bulk create test cases"""
         results = []
         for test_case in test_cases:
@@ -140,7 +140,7 @@ class AllureClient:
         return results
     
     # Launch CRUD
-    async def get_launches(self, project_id: str, params: Optional[Dict[str, Any]] = None) -> Any:
+    async def get_launches(self, project_id: str, params: dict[str, Any] | None = None) -> Any:
         """Get all launches for a project"""
         query_params = {"projectId": project_id}
         if params:
@@ -151,12 +151,12 @@ class AllureClient:
         """Get a specific launch by ID"""
         return await self.get(f"/api/rs/launch/{launch_id}")
     
-    async def create_launch(self, project_id: str, launch: Dict[str, Any]) -> Any:
+    async def create_launch(self, project_id: str, launch: dict[str, Any]) -> Any:
         """Create a new launch"""
         body = {**launch, "projectId": int(project_id)}
         return await self.post("/api/rs/launch", body)
     
-    async def update_launch(self, launch_id: int, launch: Dict[str, Any]) -> Any:
+    async def update_launch(self, launch_id: int, launch: dict[str, Any]) -> Any:
         """Update an existing launch"""
         return await self.patch(f"/api/rs/launch/{launch_id}", launch)
     
@@ -169,7 +169,7 @@ class AllureClient:
         return await self.post(f"/api/rs/launch/{launch_id}/close")
     
     # Test Plan CRUD
-    async def get_test_plans(self, project_id: str, params: Optional[Dict[str, Any]] = None) -> Any:
+    async def get_test_plans(self, project_id: str, params: dict[str, Any] | None = None) -> Any:
         """Get all test plans for a project"""
         query_params = {"projectId": project_id}
         if params:
@@ -180,12 +180,12 @@ class AllureClient:
         """Get a specific test plan by ID"""
         return await self.get(f"/api/rs/testplan/{test_plan_id}")
     
-    async def create_test_plan(self, project_id: str, test_plan: Dict[str, Any]) -> Any:
+    async def create_test_plan(self, project_id: str, test_plan: dict[str, Any]) -> Any:
         """Create a new test plan"""
         body = {**test_plan, "projectId": int(project_id)}
         return await self.post("/api/rs/testplan", body)
     
-    async def update_test_plan(self, test_plan_id: int, test_plan: Dict[str, Any]) -> Any:
+    async def update_test_plan(self, test_plan_id: int, test_plan: dict[str, Any]) -> Any:
         """Update an existing test plan"""
         return await self.patch(f"/api/rs/testplan/{test_plan_id}", test_plan)
     

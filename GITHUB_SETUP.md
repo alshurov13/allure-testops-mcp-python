@@ -59,7 +59,7 @@ git push -u origin main
    - ✅ `.gitignore` - создан
    - ✅ `README.md` - обновлен
    - ✅ `LICENSE` - добавлен
-   - ✅ `requirements.txt` - присутствует
+   - ✅ `pyproject.toml` - присутствует
    - ✅ `CONTRIBUTING.md` - создан (опционально)
 
 3. **Проверьте содержимое коммита:**

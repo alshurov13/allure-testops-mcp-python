@@ -10,8 +10,8 @@ This MCP server provides a Python implementation for interacting with Allure Tes
 
 ### Prerequisites
 
-- Python 3.8 or higher
-- pip package manager
+- Python 3.10 or higher
+- Poetry package manager
 
 ### Setup
 
@@ -23,7 +23,7 @@ cd allure_testops/mcp/python
 
 2. Install dependencies:
 ```bash
-pip install -r requirements.txt
+poetry install
 ```
 
 3. Set up environment variables (see Configuration section below)
@@ -63,7 +63,7 @@ PROJECT_ID=1
 Run the server directly:
 
 ```bash
-python index.py
+poetry run python index.py
 ```
 
 The server will run on stdio and communicate via the Model Context Protocol.
@@ -75,7 +75,7 @@ The repository includes utility scripts:
 - `get_open_launches.py` - Fetch all open launches from Allure TestOps
 
 ```bash
-python get_open_launches.py
+poetry run python get_open_launches.py
 ```
 
 ## MCP Configuration
@@ -143,7 +143,8 @@ Add to your `mcp.json` (typically located in `~/.cursor/mcp.json` or similar):
 ├── csv_parser.py           # CSV parsing utilities
 ├── controllers/            # API controller modules
 ├── get_open_launches.py   # Utility script for fetching open launches
-├── requirements.txt       # Python dependencies
+├── pyproject.toml         # Poetry configuration
+├── poetry.lock          # Lock file for dependencies
 └── README.md              # This file
 ```
 
@@ -154,8 +155,8 @@ Add to your `mcp.json` (typically located in `~/.cursor/mcp.json` or similar):
 Run the test scripts:
 
 ```bash
-python test_simple.py
-python test_mcp.py
+poetry run python test_simple.py
+poetry run python test_mcp.py
 ```
 
 See `TESTING.md` and `QUICK_TEST.md` for more details.

@@ -8,7 +8,7 @@ import asyncio
 import json
 import os
 import sys
-from typing import Any, Dict, List
+from typing import Any
 from mcp.server import Server
 from mcp.server.stdio import stdio_server
 from mcp.types import Tool, TextContent
@@ -38,7 +38,7 @@ if not PROJECT_ID:
 allure_client = create_allure_client(ALLURE_TESTOPS_URL, ALLURE_TOKEN)
 
 # Define tools matching Node.js version
-all_tools: List[Tool] = [
+all_tools: list[Tool] = [
     Tool(
         name='list_test_cases',
         description='List all test cases in the project',
@@ -245,105 +245,106 @@ all_tools: List[Tool] = [
 server = Server("allure-testops-mcp")
 
 @server.list_tools()
-async def list_tools() -> List[Tool]:
+async def list_tools() -> list[Tool]:
     """Return list of available tools"""
     return all_tools
 
 @server.call_tool()
-async def call_tool(name: str, arguments: Dict[str, Any]) -> List[TextContent]:
+async def call_tool(name: str, arguments: dict[str, Any]) -> list[TextContent]:
     """Handle tool calls"""
     try:
-        if name == 'list_test_cases':
-            params = arguments or {}
-            result = await allure_client.get_test_cases(PROJECT_ID, params)
-            return [TextContent(type="text", text=json.dumps(result, indent=2))]
+        match name:
+            case 'list_test_cases':
+                params = arguments or {}
+                result = await allure_client.get_test_cases(PROJECT_ID, params)
+                return [TextContent(type="text", text=json.dumps(result, indent=2))]
 
-        elif name == 'get_test_case':
-            test_case_id = arguments.get('id')
-            result = await allure_client.get_test_case(test_case_id)
-            return [TextContent(type="text", text=json.dumps(result, indent=2))]
+            case 'get_test_case':
+                test_case_id = arguments.get('id')
+                result = await allure_client.get_test_case(test_case_id)
+                return [TextContent(type="text", text=json.dumps(result, indent=2))]
 
-        elif name == 'create_test_case':
-            test_case = {k: v for k, v in arguments.items()}
-            result = await allure_client.create_test_case(PROJECT_ID, test_case)
-            return [TextContent(type="text", text=json.dumps(result, indent=2))]
+            case 'create_test_case':
+                test_case = {k: v for k, v in arguments.items()}
+                result = await allure_client.create_test_case(PROJECT_ID, test_case)
+                return [TextContent(type="text", text=json.dumps(result, indent=2))]
 
-        elif name == 'update_test_case':
-            test_case_id = arguments.get('id')
-            update_data = {k: v for k, v in arguments.items() if k != 'id'}
-            result = await allure_client.update_test_case(test_case_id, update_data)
-            return [TextContent(type="text", text=json.dumps(result, indent=2))]
+            case 'update_test_case':
+                test_case_id = arguments.get('id')
+                update_data = {k: v for k, v in arguments.items() if k != 'id'}
+                result = await allure_client.update_test_case(test_case_id, update_data)
+                return [TextContent(type="text", text=json.dumps(result, indent=2))]
 
-        elif name == 'delete_test_case':
-            test_case_id = arguments.get('id')
-            await allure_client.delete_test_case(test_case_id)
-            return [TextContent(type="text", text=f"Test case {test_case_id} deleted successfully")]
+            case 'delete_test_case':
+                test_case_id = arguments.get('id')
+                await allure_client.delete_test_case(test_case_id)
+                return [TextContent(type="text", text=f"Test case {test_case_id} deleted successfully")]
 
-        elif name == 'bulk_create_test_cases_from_csv':
-            csv_content = arguments.get('csv_content')
-            test_cases = parse_test_cases_from_csv(csv_content)
-            results = await allure_client.bulk_create_test_cases(PROJECT_ID, test_cases)
-            return [TextContent(type="text", text=json.dumps(results, indent=2))]
+            case 'bulk_create_test_cases_from_csv':
+                csv_content = arguments.get('csv_content')
+                test_cases = parse_test_cases_from_csv(csv_content)
+                results = await allure_client.bulk_create_test_cases(PROJECT_ID, test_cases)
+                return [TextContent(type="text", text=json.dumps(results, indent=2))]
 
-        elif name == 'list_launches':
-            params = arguments or {}
-            result = await allure_client.get_launches(PROJECT_ID, params)
-            return [TextContent(type="text", text=json.dumps(result, indent=2))]
+            case 'list_launches':
+                params = arguments or {}
+                result = await allure_client.get_launches(PROJECT_ID, params)
+                return [TextContent(type="text", text=json.dumps(result, indent=2))]
 
-        elif name == 'get_launch':
-            launch_id = arguments.get('id')
-            result = await allure_client.get_launch(launch_id)
-            return [TextContent(type="text", text=json.dumps(result, indent=2))]
+            case 'get_launch':
+                launch_id = arguments.get('id')
+                result = await allure_client.get_launch(launch_id)
+                return [TextContent(type="text", text=json.dumps(result, indent=2))]
 
-        elif name == 'create_launch':
-            launch = {k: v for k, v in arguments.items()}
-            result = await allure_client.create_launch(PROJECT_ID, launch)
-            return [TextContent(type="text", text=json.dumps(result, indent=2))]
+            case 'create_launch':
+                launch = {k: v for k, v in arguments.items()}
+                result = await allure_client.create_launch(PROJECT_ID, launch)
+                return [TextContent(type="text", text=json.dumps(result, indent=2))]
 
-        elif name == 'update_launch':
-            launch_id = arguments.get('id')
-            update_data = {k: v for k, v in arguments.items() if k != 'id'}
-            result = await allure_client.update_launch(launch_id, update_data)
-            return [TextContent(type="text", text=json.dumps(result, indent=2))]
+            case 'update_launch':
+                launch_id = arguments.get('id')
+                update_data = {k: v for k, v in arguments.items() if k != 'id'}
+                result = await allure_client.update_launch(launch_id, update_data)
+                return [TextContent(type="text", text=json.dumps(result, indent=2))]
 
-        elif name == 'delete_launch':
-            launch_id = arguments.get('id')
-            await allure_client.delete_launch(launch_id)
-            return [TextContent(type="text", text=f"Launch {launch_id} deleted successfully")]
+            case 'delete_launch':
+                launch_id = arguments.get('id')
+                await allure_client.delete_launch(launch_id)
+                return [TextContent(type="text", text=f"Launch {launch_id} deleted successfully")]
 
-        elif name == 'close_launch':
-            launch_id = arguments.get('id')
-            result = await allure_client.close_launch(launch_id)
-            return [TextContent(type="text", text=json.dumps(result, indent=2))]
+            case 'close_launch':
+                launch_id = arguments.get('id')
+                result = await allure_client.close_launch(launch_id)
+                return [TextContent(type="text", text=json.dumps(result, indent=2))]
 
-        elif name == 'list_test_plans':
-            params = arguments or {}
-            result = await allure_client.get_test_plans(PROJECT_ID, params)
-            return [TextContent(type="text", text=json.dumps(result, indent=2))]
+            case 'list_test_plans':
+                params = arguments or {}
+                result = await allure_client.get_test_plans(PROJECT_ID, params)
+                return [TextContent(type="text", text=json.dumps(result, indent=2))]
 
-        elif name == 'get_test_plan':
-            test_plan_id = arguments.get('id')
-            result = await allure_client.get_test_plan(test_plan_id)
-            return [TextContent(type="text", text=json.dumps(result, indent=2))]
+            case 'get_test_plan':
+                test_plan_id = arguments.get('id')
+                result = await allure_client.get_test_plan(test_plan_id)
+                return [TextContent(type="text", text=json.dumps(result, indent=2))]
 
-        elif name == 'create_test_plan':
-            test_plan = {k: v for k, v in arguments.items()}
-            result = await allure_client.create_test_plan(PROJECT_ID, test_plan)
-            return [TextContent(type="text", text=json.dumps(result, indent=2))]
+            case 'create_test_plan':
+                test_plan = {k: v for k, v in arguments.items()}
+                result = await allure_client.create_test_plan(PROJECT_ID, test_plan)
+                return [TextContent(type="text", text=json.dumps(result, indent=2))]
 
-        elif name == 'update_test_plan':
-            test_plan_id = arguments.get('id')
-            update_data = {k: v for k, v in arguments.items() if k != 'id'}
-            result = await allure_client.update_test_plan(test_plan_id, update_data)
-            return [TextContent(type="text", text=json.dumps(result, indent=2))]
+            case 'update_test_plan':
+                test_plan_id = arguments.get('id')
+                update_data = {k: v for k, v in arguments.items() if k != 'id'}
+                result = await allure_client.update_test_plan(test_plan_id, update_data)
+                return [TextContent(type="text", text=json.dumps(result, indent=2))]
 
-        elif name == 'delete_test_plan':
-            test_plan_id = arguments.get('id')
-            await allure_client.delete_test_plan(test_plan_id)
-            return [TextContent(type="text", text=f"Test plan {test_plan_id} deleted successfully")]
+            case 'delete_test_plan':
+                test_plan_id = arguments.get('id')
+                await allure_client.delete_test_plan(test_plan_id)
+                return [TextContent(type="text", text=f"Test plan {test_plan_id} deleted successfully")]
 
-        else:
-            return [TextContent(type="text", text=f"Unknown tool: {name}")]
+            case _:
+                return [TextContent(type="text", text=f"Unknown tool: {name}")]
 
     except Exception as error:
         error_message = str(error)
