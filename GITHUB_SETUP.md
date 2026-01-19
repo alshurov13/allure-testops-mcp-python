@@ -1,135 +1,134 @@
-# Инструкция по публикации на GitHub
+# GitHub Publishing Guide
 
-## Шаг 1: Инициализация Git репозитория
+## Step 1: Initialize Git Repository
 
 ```bash
-# Перейдите в директорию проекта
-cd /Users/alexander.shurov/allure_testops/mcp/python
+# Navigate to the project directory
+cd ..
 
-# Инициализируйте git репозиторий
+# Initialize git repository
 git init
 
-# Добавьте все файлы (кроме тех, что в .gitignore)
+# Add all files (except those in .gitignore)
 git add .
 
-# Сделайте первый коммит
+# Make the first commit
 git commit -m "Initial commit: Allure TestOps MCP Server"
 ```
 
-## Шаг 2: Создание репозитория на GitHub
+## Step 2: Create Repository on GitHub
 
-1. Зайдите на [GitHub.com](https://github.com)
-2. Нажмите "New repository" (или перейдите по прямой ссылке создания)
-3. Заполните:
-   - **Repository name**: `allure-testops-mcp-python` (или другое имя)
+1. Go to [GitHub.com](https://github.com)
+2. Click "New repository" (or go directly to the creation link)
+3. Fill in:
+   - **Repository name**: `allure-testops-mcp-python` (or another name)
    - **Description**: "Model Context Protocol server for Allure TestOps API"
-   - **Visibility**: Public или Private (на ваше усмотрение)
-   - **НЕ** добавляйте README, .gitignore или LICENSE (они уже есть)
-4. Нажмите "Create repository"
+   - **Visibility**: Public or Private (your choice)
+   - **DO NOT** add README, .gitignore, or LICENSE (they already exist)
+4. Click "Create repository"
 
-## Шаг 3: Подключение локального репозитория к GitHub
+## Step 3: Connect Local Repository to GitHub
 
 ```bash
-# Добавьте remote (замените YOUR_USERNAME и REPO_NAME на ваши значения)
+# Add remote (replace YOUR_USERNAME and REPO_NAME with your values)
 git remote add origin https://github.com/YOUR_USERNAME/REPO_NAME.git
 
-# Переименуйте ветку в main (если нужно)
+# Rename branch to main (if needed)
 git branch -M main
 
-# Отправьте код на GitHub
+# Push code to GitHub
 git push -u origin main
 ```
 
-## Шаг 4: Проверка перед публикацией
+## Step 4: Pre-Publication Checklist
 
-### ✅ Убедитесь, что:
+### ✅ Make sure that:
 
-1. **Нет конфиденциальных данных:**
+1. **No sensitive data:**
    ```bash
-   # Проверьте, что эти файлы не будут закоммичены
+   # Check that these files will not be committed
    git status
-   # Должны быть в списке "Untracked files" или игнорироваться:
+   # Should be in "Untracked files" list or ignored:
    # - .env
    # - open_launches_summary.json
    # - venv/
    # - __pycache__/
    ```
 
-2. **Все необходимые файлы на месте:**
-   - ✅ `.gitignore` - создан
-   - ✅ `README.md` - обновлен
-   - ✅ `LICENSE` - добавлен
-   - ✅ `pyproject.toml` - присутствует
-   - ✅ `CONTRIBUTING.md` - создан (опционально)
+2. **All necessary files are in place:**
+   - ✅ `.gitignore` - created
+   - ✅ `README.md` - updated
+   - ✅ `LICENSE` - added
+   - ✅ `pyproject.toml` - present
+   - ✅ `CONTRIBUTING.md` - created (optional)
 
-3. **Проверьте содержимое коммита:**
+3. **Review commit contents:**
    ```bash
-   # Посмотрите, что будет закоммичено
+   # See what will be committed
    git status
-   git diff --cached  # для staged файлов
+   git diff --cached  # for staged files
    ```
 
-## Шаг 5: Дополнительные настройки на GitHub
+## Step 5: Additional GitHub Settings
 
-После публикации:
+After publishing:
 
-1. **Добавьте описание репозитория** в настройках
-2. **Добавьте теги/топики**: `mcp`, `allure-testops`, `python`, `api-client`
-3. **Включите Issues** (если планируете принимать баги/запросы)
-4. **Настройте GitHub Actions** (опционально, для CI/CD)
+1. **Add repository description** in settings
+2. **Add topics/tags**: `mcp`, `allure-testops`, `python`, `api-client`
+3. **Enable Issues** (if you plan to accept bugs/requests)
+4. **Set up GitHub Actions** (optional, for CI/CD)
 
-## Важные напоминания
+## Important Reminders
 
-⚠️ **НИКОГДА не коммитьте:**
-- API токены (`ALLURE_TOKEN`)
-- Реальные URL серверов
-- Файлы `.env` с реальными данными
-- Персональные данные
-- Файлы `open_launches_summary.json` с реальными данными
+⚠️ **NEVER commit:**
+- API tokens (`ALLURE_TOKEN`)
+- Real server URLs
+- `.env` files with real data
+- Personal data
+- `open_launches_summary.json` files with real data
 
-✅ **Всегда используйте:**
-- Переменные окружения для конфиденциальных данных
-- `.env.example` как шаблон (если создадите)
-- Placeholder значения в примерах кода
+✅ **Always use:**
+- Environment variables for sensitive data
+- `.env.example` as a template (if you create one)
+- Placeholder values in code examples
 
-## Полезные команды Git
+## Useful Git Commands
 
 ```bash
-# Посмотреть статус
+# Check status
 git status
 
-# Посмотреть изменения
+# View changes
 git diff
 
-# Добавить конкретный файл
+# Add a specific file
 git add filename.py
 
-# Отменить добавление файла
+# Unstage a file
 git reset filename.py
 
-# Посмотреть историю коммитов
+# View commit history
 git log --oneline
 
-# Обновить код с GitHub
+# Update code from GitHub
 git pull origin main
 ```
 
-## Если что-то пошло не так
+## If Something Goes Wrong
 
-Если случайно закоммитили конфиденциальные данные:
+If you accidentally committed sensitive data:
 
-1. **Немедленно** смените токены/пароли
-2. Удалите файл из истории Git:
+1. **Immediately** change tokens/passwords
+2. Remove file from Git history:
    ```bash
    git filter-branch --force --index-filter \
      "git rm --cached --ignore-unmatch path/to/file" \
      --prune-empty --tag-name-filter cat -- --all
    ```
-3. Или используйте `git-filter-repo` (более современный инструмент)
-4. Принудительно отправьте изменения:
+3. Or use `git-filter-repo` (more modern tool)
+4. Force push changes:
    ```bash
    git push origin --force --all
    ```
 
-**Внимание:** Force push изменяет историю, используйте осторожно!
-
+**Warning:** Force push changes history, use with caution!
