@@ -93,16 +93,17 @@ async def test_tool_handler():
     try:
         client = create_allure_client(allure_url, allure_token)
         
-        # Test a simple tool call (list projects)
-        print("  Testing 'allure_findAll_22' (list projects)...")
+        # Test a simple tool call (list test cases)
+        print("  Testing 'allure_test_case_findAll' (list test cases)...")
         args = {
+            'projectId': project_id,
             'page': 0,
             'size': 1
         }
         
-        result = await handle_project_controller_tool(
+        result = await handle_test_case_controller_tool(
             client,
-            'allure_findAll_22',
+            'allure_test_case_findAll',
             args,
             project_id
         )
@@ -131,23 +132,29 @@ async def test_mcp_server_structure():
     
     try:
         # Try to import index
-        from index import server, all_tools, tool_handler_map
+        from index import server, all_tools
         
         print(f"  ✓ Server created: {server}")
         print(f"  ✓ Total tools registered: {len(all_tools)}")
-        print(f"  ✓ Tool handlers mapped: {len(tool_handler_map)}")
         
         # Check if tools have required structure
         if all_tools:
             sample_tool = all_tools[0]
             required_fields = ['name', 'description', 'inputSchema']
-            missing = [f for f in required_fields if f not in sample_tool]
+            # Tool is a Pydantic model, so check attributes using hasattr
+            missing = [f for f in required_fields if not hasattr(sample_tool, f)]
             
             if missing:
                 print(f"  ✗ Tools missing fields: {missing}")
                 return False
             else:
                 print(f"  ✓ Tools have required structure")
+                # Verify they have values
+                if sample_tool.name and sample_tool.description and sample_tool.inputSchema:
+                    print(f"  ✓ Sample tool: {sample_tool.name}")
+                else:
+                    print(f"  ✗ Sample tool has empty required fields")
+                    return False
         
         return True
         
